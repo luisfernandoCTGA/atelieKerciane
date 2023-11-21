@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<style type="text/css">
+		*{
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
+			font-family: monospace;
+		}
+
+		body{
+			padding: 30px 20px;
+			overflow-y: auto;
+		}
+
+		body::-webkit-scrollbar{
+			display: none;
+		}
+
+		input{
+			width: 100%;
+			margin: 5px 0;
+			padding: 5px;
+		}
+
+		.inline{
+			display: inline-block;
+		}
+
+		.destaque1{
+			color: blue;
+		}
+	</style>
+</head>
+<body>
+	<h2>variaveis de decisão</h2>
+
+	<br>
+
+	<p>nome da variavel de decisão 1:</p>
+	<input id="12" type="text" name="" placeholder="ex: cadeira">
+
+	<p>nome da variavel de decisão 2:</p>
+	<input id="14" type="text" name="" placeholder="ex: mesas">
+
+	<br>
+	<br>
+	<br>
+
+	<p>variavel de decisão 1: <span id="13" class="destaque1"></span></p>
+
+	<label>custo de(a):  <span id="18" class="destaque1"></label>
+	<input type="number" name="" value="0" id="1"><br>
+
+	<label>custo de(a):  <span id="19" class="destaque1"></label>
+	<input type="number" name="" value="0" id="2"><br>
+
+	<label>lucro por unidade de: <span id="30" class="destaque1"></span></label>
+	<input type="number" name="" value="0" id="3"><br>
+
+	<br>
+	<br>
+	<hr>
+	<br>
+
+	<p>variavel de decisão 2: <span id="15" class="destaque1"></span></p>
+
+	<label>custo de(a):  <span id="20" class="destaque1"></label>
+	<input type="number" name="" value="0" id="4"><br>
+
+	<label>custo de(a):  <span id="21" class="destaque1"></label>
+	<input type="number" name="" value="0" id="5"><br>
+
+	<label>lucro por unidade de: <span id="31" class="destaque1"></span></label>
+	<input type="number" name="" value="0" id="6"><br>
+
+	<br>
+	<br>
+	<hr>
+	<br>
+
+
+	<h2>restrições</h2>
+
+	<br>
+
+	<label>restrição 1</label>
+	<p>nome:</p>
+	<input id="16" type="text" name="" placeholder="ex: madeira">
+	<p>quantidade em estoque:</p>
+	<input type="number" name="" value="0" id="7">
+
+	<br>
+	<br>
+	<hr>
+	<br>
+
+	<label>restrição 2</label>
+	<p>nome:</p>
+	<input id="17" type="text" name="" placeholder="ex: tabua">
+	<p>quantidade em estoque:</p>
+	<input type="number" name="" value="0" id="8">
+
+	<br>
+	<h2>calcular</h2>
+	<br>
+	<input type="button" name="" value="calcular" onclick="funcionar();">
+	<br>
+	<br>
+	<label id="9">variavel de decisão 1: 0 UN de(a): </label> <span id="22" class="destaque1"></span><br>
+	<label id="10">variavel de decisão 2: 0 UN de(a): </label> <span id="23" class="destaque1"></span><br>
+	<label id="11">lucro de R$: 0.00 () / lucro R$: 0.00 () / lucro totais R$: 0.00</label><br><br><br><br>
+
+	<h2>autores</h2>
+	<hr>
+	<p>Ryan Manoel O. Ramos</p>
+	<p>Hector</p>
+	<p>Felipe Israel</p>
+	<p>Luis Fernando</p>
+	<br>
+	<hr>
+	<p>rede de ensino doctum, uso livre (no copyrigths)</p>
+
+	<script type="text/javascript">
+		//variaveis de decisão
+		var d1 = 0;
+		var d2 = 0;
+
+		//variaveis de lucro
+		var l1 = 0;
+		var l2 = 0;
+
+		//variaveis de restrição
+		var r1 = 0;
+		var r2 = 0;
+
+		//variaveis de custo restrição
+		var d1r1 = 0;
+		var d1r2 = 0;
+		var d2r1 = 0;
+		var d2r2 = 0;
+
+
+		function maximo_d1(){
+			//calculo com r1 de d1
+			var x1 = Math.floor(r1 / d1r1);
+
+			//calculo com r2 de d1
+			var x2 = Math.floor(r2 / d1r2);
+
+			//retornando o maximo possivel
+			if(x1 < x2){
+				return x1;
+			} else{
+				return x2;
+			}
+		}
+
+		function setar_lucro_maximo(x1, x2){
+			if((x1*l1 + x2*l2) > (d1*l1 + d2*l2)){
+				d1 = x1;
+				d2 = x2;
+			}
+
+			return;
+		}
+
+		function maximo_d2(base_sobra){
+			//variaveis de produção de d2
+			var x1 = 0;
+			var x2 = 0;
+
+			//sobra de restrição
+			var s1 = 0;
+			var s2 = 0;
+
+			//definindo as sobras
+			s1 = r1 - (base_sobra*d1r1);
+			s2 = r2 - (base_sobra*d1r2);
+
+			//calculo com s1 de d2
+			x1 = Math.floor(s1 / d2r1);
+
+			//calculo com s2 de d2
+			x2 = Math.floor(s2 / d2r2);
+
+			//retornando o maximo possivel
+			if(x1 < x2){
+				return x1;
+			} else{
+				return x2;
+			}
+		}
+
+		function loop(){
+			var t_d1 = maximo_d1();
+			var t_d2 = maximo_d2(t_d1);
+
+			//tratando erros, produto infinito. d1
+			if(d1r1 == 0 && d1r2 == 0){
+				return;
+			}
+
+			//tratando erros, produto infinito. d2
+			if(d2r1 == 0 && d2r2 == 0){
+				return;
+			}
+
+			//tratando erros. não há como fazer d1
+			if(maximo_d1() == 0 && maximo_d2(0) == 0){
+				return;
+			}
+
+			//estartando o loop
+			//no caso t_d1 começa com max e t_d2 com 0
+			//a cada iteração rodo o set lucro
+			//subtraio 1 de t_d1, seto t_d2 para o novo maximo correspondente.
+			//seto o lucro, paro quando t_d1 chegar a 0.
+
+			while(true){
+				setar_lucro_maximo(t_d1, t_d2);
+				t_d1 --;
+				t_d2 = maximo_d2(t_d1);
+
+				console.log("interação: "+t_d1);
+				console.log("d1: "+t_d1+" d2: "+t_d2);
+
+				//quebra de loop
+				if(t_d1 <= 0){
+					break;
+				}
+			}
+		}
+
+		function funcionar(){
+			d1r1 = parseInt(document.getElementById('1').value);
+			d1r2 = parseInt(document.getElementById('2').value);
+			l1 = parseFloat(document.getElementById('3').value);
+
+			d2r1 = parseInt(document.getElementById('4').value);
+			d2r2 = parseInt(document.getElementById('5').value);
+			l2 = parseFloat(document.getElementById('6').value);
+
+			r1 = parseInt(document.getElementById('7').value);
+			r2 = parseInt(document.getElementById('8').value);
+
+			loop();
+
+			document.getElementById('9').innerHTML = "variavel de decisão 1: " + d1 + " UN de(a): ";
+			document.getElementById('10').innerHTML = "variavel de decisão 2: " + d2 + " UN de(a): ";
+			document.getElementById('11').innerHTML = "lucro de R$: "+(d1*l1).toFixed(2)+" ("+document.getElementById(12).value+") / lucro R$: "+(d2*l2).toFixed(2)+" ("+document.getElementById(14).value+") / lucro totais R$: "+(d1*l1 + d2*l2).toFixed(2);
+
+
+		}
+
+		console.log(maximo_d1());
+		console.log(maximo_d2(0));
+		console.log(maximo_d2(1));
+
+		loop();
+
+		console.log("d1: "+d1);
+		console.log("d2: "+d2);
+
+		document.getElementById('12').addEventListener('input', function(){
+			document.getElementById('13').textContent = document.getElementById('12').value;
+			document.getElementById('22').textContent = document.getElementById('12').value;
+			document.getElementById('30').textContent = document.getElementById('12').value;
+		})
+
+		document.getElementById('14').addEventListener('input', function(){
+			document.getElementById('15').textContent = document.getElementById('14').value;
+			document.getElementById('23').textContent = document.getElementById('14').value;
+			document.getElementById('31').textContent = document.getElementById('14').value;
+		})
+
+		document.getElementById('16').addEventListener('input', function(){
+			document.getElementById('18').textContent = document.getElementById('16').value;
+			document.getElementById('20').textContent = document.getElementById('16').value;
+		})
+
+		document.getElementById('17').addEventListener('input', function(){
+			document.getElementById('19').textContent = document.getElementById('17').value;
+			document.getElementById('21').textContent = document.getElementById('17').value;
+		})
+	</script>
+</body>
+</html>
